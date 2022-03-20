@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
+import { Divider } from "react-native-elements";
 
 export const BottomTabIcons = [
   {
@@ -26,7 +27,7 @@ export const BottomTabIcons = [
       "https://img.icons8.com/external-nawicon-detailed-outline-nawicon/344/ffffff/external-shop-location-nawicon-detailed-outline-nawicon.png",
   },
   {
-    name: "Account",
+    name: "Profile",
     active:
       "https://lh3.googleusercontent.com/ogw/ADea4I5tfC6tDLzsiqJRDsPoa-Sjz-GUUTPfPDehgih0=s32-c-mo",
     inactive:
@@ -39,15 +40,27 @@ const BottomTabs = ({ icons }) => {
 
   const Icon = ({ icon }) => (
     <TouchableOpacity onPress={() => setActiveTap(icon.name)}>
-      <Image source={{ uri: icon.inactive }} style={styles.icon} />
+      <Image
+        source={{ uri: activeTap === icon.name ? icon.active : icon.inactive }}
+        style={[
+          styles.icon,
+          icon.name === "Profile" ? styles.profilePic() : null,
+          activeTap === "Profile" && icon.name === activeTap
+            ? styles.profilePic(activeTap)
+            : null,
+        ]}
+      />
     </TouchableOpacity>
   );
 
   return (
-    <View>
-      {icons.map((icon, index) => (
-        <Icon key={index} icon={icon} />
-      ))}
+    <View style={styles.wrapper}>
+      <Divider width={1} orientation="vertical" />
+      <View style={styles.container}>
+        {icons.map((icon, index) => (
+          <Icon key={index} icon={icon} />
+        ))}
+      </View>
     </View>
   );
 };
@@ -55,8 +68,27 @@ const BottomTabs = ({ icons }) => {
 export default BottomTabs;
 
 const styles = StyleSheet.create({
+  wrapper: {
+    position: "absolute",
+    width: "100%",
+    bottom: 0,
+    backgroundColor: "#000",
+    zIndex: 999,
+  },
+  container: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+    height: 50,
+    paddingTop: 10,
+  },
   icon: {
     width: 30,
     height: 30,
   },
+  profilePic: (activeTap = "") => ({
+    borderRadius: 50,
+    borderColor: "#fff",
+    borderWidth: activeTap === "Profile" ? 2 : 0,
+  }),
 });

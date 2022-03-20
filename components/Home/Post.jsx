@@ -46,6 +46,7 @@ const PostFooter = ({ post }) => (
     style={{
       marginHorizontal: 15,
       marginTop: 10,
+      marginBottom:25,
     }}
   >
     <View

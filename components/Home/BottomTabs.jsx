@@ -1,5 +1,13 @@
 import { StyleSheet, Text, View } from "react-native";
 
+export const BottomTabIcon = [
+  {
+    name: "Home",
+    active: "",
+    inactive: "https://img.icons8.com/fluency-systems-regular/344/home.png",
+  },
+];
+
 const BottomTabs = () => {
   return (
     <View>

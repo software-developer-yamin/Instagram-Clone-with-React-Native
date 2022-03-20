@@ -6,10 +6,19 @@ const Stories = () => {
     <View style={{ marginBottom: 13 }}>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         {USERS.map((story, index) => (
-          <Image source={{ uri: story.image }} />
+          <View key={index}>
+            <Image source={{ uri: story.image }} style={styles.story} />
+            <Text style={{ color: "#fff", textAlign: "center" }}>
+              @{story.user.length > 11
+                ? story.user
+                    .substring(0, 10)
+                    .replace(" ", "")
+                    .toLocaleLowerCase() + "..."
+                : story.user.replace(" ", "").toLocaleLowerCase()}
+            </Text>
+          </View>
         ))}
       </ScrollView>
-      <Text style={{ color: "#fff" }}>Stories</Text>
     </View>
   );
 };
@@ -17,7 +26,12 @@ const Stories = () => {
 export default Stories;
 
 const styles = StyleSheet.create({
-     story: {
-          
-     }
+  story: {
+    height: 70,
+    width: 70,
+    borderRadius: 50,
+    marginLeft: 6,
+    borderWidth: 3,
+    borderColor: "#ff8501",
+  },
 });

@@ -3,13 +3,14 @@ import { USERS } from "../../data/users";
 
 const Stories = () => {
   return (
-    <View style={{ marginBottom: 13 }}>
+    <View style={{ marginBottom: 13, zIndex: 100 }}>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         {USERS.map((story, index) => (
           <View key={index}>
             <Image source={{ uri: story.image }} style={styles.story} />
             <Text style={{ color: "#fff", textAlign: "center" }}>
-              @{story.user.length > 11
+              @
+              {story.user.length > 11
                 ? story.user
                     .substring(0, 10)
                     .replace(" ", "")

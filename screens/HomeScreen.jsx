@@ -1,14 +1,19 @@
-import { StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import Header from "../components/Home/Header";
 import Post from "../components/Home/Post";
 import Stories from "../components/Home/Stories";
+import { POSTS } from "../data/posts";
 
 const HomeScreen = () => {
   return (
     <View style={styles.container}>
       <Header />
       <Stories />
-      <Post/>
+      <ScrollView>
+        {POSTS.map((post, index) => (
+          <Post post={post} key={index} />
+        ))}
+      </ScrollView>
     </View>
   );
 };

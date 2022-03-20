@@ -1,4 +1,5 @@
 import { ScrollView, StyleSheet, View } from "react-native";
+import BottomTabs from "../components/Home/BottomTabs";
 import Header from "../components/Home/Header";
 import Post from "../components/Home/Post";
 import Stories from "../components/Home/Stories";
@@ -14,6 +15,7 @@ const HomeScreen = () => {
           <Post post={post} key={index} />
         ))}
       </ScrollView>
+      <BottomTabs/>
     </View>
   );
 };

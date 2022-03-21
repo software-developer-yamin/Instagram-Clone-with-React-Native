@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/native";
 import { Formik } from "formik";
 import { useState } from "react";
 import { Button, Image, StyleSheet, Text, TextInput, View } from "react-native";
@@ -14,11 +15,15 @@ const uploadPostSchema = Yup.object().shape({
 
 const FormikPostUploader = () => {
   const [thumbnail, setThumbnail] = useState(PLACEHOLDER_URL);
+  const navigation = useNavigation();
 
   return (
     <Formik
       initialValues={{ caption: "", imageUrl: "" }}
-      onSubmit={(value) => console.log(value)}
+      onSubmit={(value) => {
+        console.log(value);
+        navigation.goBack();
+      }}
       validationSchema={uploadPostSchema}
       validateOnMount={true}
     >

@@ -6,6 +6,7 @@ import Stories from "../components/Home/Stories";
 import { POSTS } from "../data/posts";
 
 const HomeScreen = () => {
+
   return (
     <View style={styles.container}>
       <Header />

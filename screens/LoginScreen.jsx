@@ -1,4 +1,5 @@
 import { Image, StyleSheet, View } from "react-native";
+import LoginForm from "../components/Login/LoginForm";
 
 const LoginScreen = () => {
   const INSTAGRAM_LOGO =
@@ -8,6 +9,7 @@ const LoginScreen = () => {
       <View style={styles.logoContainer}>
         <Image source={{ uri: INSTAGRAM_LOGO, height: 100, width: 100 }} />
       </View>
+      <LoginForm />
     </View>
   );
 };
@@ -22,7 +24,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
   },
   logoContainer: {
-       alignItems: "center",
-       marginTop: 60,
+    alignItems: "center",
+    marginTop: 60,
   },
 });

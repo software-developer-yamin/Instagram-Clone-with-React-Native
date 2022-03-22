@@ -3,6 +3,7 @@ import {
   FontAwesome5,
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
+import "firebase/compat/firestore";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Divider } from "react-native-elements";
 
@@ -21,7 +22,7 @@ const PostHeader = ({ post }) => (
   <View style={styles.postHeaderContainer}>
     <View style={{ flexDirection: "row", alignItems: "center" }}>
       <Image
-        source={{ uri: post.profile_picture }}
+        source={{ uri: post?.profile_picture }}
         style={styles.postHeaderProfilePicture}
       />
       <Text style={{ color: "white", marginLeft: 5, fontWeight: "700" }}>
@@ -35,7 +36,7 @@ const PostHeader = ({ post }) => (
 const PostImage = ({ post }) => (
   <View style={{ width: "100%", height: 450 }}>
     <Image
-      source={{ uri: post.imageUrl }}
+      source={{ uri: post?.imageUrl }}
       style={{ height: "100%", resizeMode: "cover" }}
     />
   </View>
@@ -46,7 +47,7 @@ const PostFooter = ({ post }) => (
     style={{
       marginHorizontal: 15,
       marginTop: 10,
-      marginBottom:25,
+      marginBottom: 25,
     }}
   >
     <View
@@ -89,25 +90,25 @@ const PostFooter = ({ post }) => (
 
     <View style={{ flexDirection: "row", marginTop: 4 }}>
       <Text style={{ color: "white", fontWeight: "600" }}>
-        {post.likes.toLocaleString("en-GB")} likes
+        {post?.likes_by_users?.length?.toLocaleString("en-GB")} likes
       </Text>
     </View>
 
     <View style={{ marginTop: 5 }}>
       <Text style={{ color: "white" }}>
         <Text style={{ fontWeight: "bold" }}>
-          @{post.user.replace(" ", "")}
+          @{post?.user?.replace(" ", "")}
         </Text>
-        <Text> {post.caption}</Text>
+        <Text> {post?.caption}</Text>
       </Text>
     </View>
 
-    {!!post.comments.length && (
+    {!!post?.comments?.length && (
       <View style={{ marginTop: 5 }}>
         <Text style={{ color: "gray" }}>
-          View {post.comments.length > 1 ? "all " : ""}
-          {post.comments.length}{" "}
-          {post.comments.length > 1 ? "comments" : "comment"}
+          View {post?.comments?.length > 1 ? "all " : ""}
+          {post?.comments?.length}{" "}
+          {post?.comments?.length > 1 ? "comments" : "comment"}
         </Text>
       </View>
     )}
@@ -118,13 +119,13 @@ const PostFooter = ({ post }) => (
 
 const Comments = ({ post }) => (
   <>
-    {post.comments.map((comment, index) => (
+    {post?.comments?.map((comment, index) => (
       <View key={index} style={{ flexDirection: "row", marginTop: 5 }}>
         <Text style={{ color: "white" }}>
           <Text style={{ fontWeight: "900" }}>
-            @{comment.user.replace(" ", "")}
+            @{comment?.user.replace(" ", "")}
           </Text>{" "}
-          {comment.comment}
+          {comment?.comment}
         </Text>
       </View>
     ))}

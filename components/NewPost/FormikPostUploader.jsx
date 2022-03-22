@@ -39,14 +39,6 @@ const FormikPostUploader = () => {
 
   useEffect(() => getUsername(), []);
 
-  const getRandomProfilePicture = async () => {
-    const response = await fetch("https://randomuser.me/api");
-    const data = await response.json();
-    return data.results[0].picture.large;
-  };
-
-  console.log(currentLoggedInUser);
-
   const uploadPostFirebase = async (imageUrl, caption) => {
     const unsubscribe = db
       .collection("users")
@@ -57,9 +49,9 @@ const FormikPostUploader = () => {
         user: currentLoggedInUser.username,
         profile_picture: currentLoggedInUser.profilePicture,
         owner_uid: auth.currentUser.uid,
+        owner_email: auth.currentUser.email,
         caption: caption,
         createdAt: serverTimestamp(),
-        likes: 0,
         likes_by_users: [],
         comments: [],
       })

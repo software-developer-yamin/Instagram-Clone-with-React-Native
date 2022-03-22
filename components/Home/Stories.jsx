@@ -12,7 +12,7 @@ const Stories = () => {
               @
               {story.user.length > 11
                 ? story.user
-                    .substring(0, 10)
+                    .substring(0, 6)
                     .replace(" ", "")
                     .toLocaleLowerCase() + "..."
                 : story.user.replace(" ", "").toLocaleLowerCase()}
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     height: 70,
     width: 70,
     borderRadius: 50,
-    marginLeft: 6,
+    marginLeft: 18,
     borderWidth: 3,
     borderColor: "#ff8501",
   },

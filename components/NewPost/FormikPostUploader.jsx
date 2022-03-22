@@ -1,4 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
+import { serverTimestamp } from "firebase/firestore";
 import { Formik } from "formik";
 import { useEffect, useState } from "react";
 import { Button, Image, StyleSheet, Text, TextInput, View } from "react-native";
@@ -20,10 +21,10 @@ const FormikPostUploader = () => {
   const [currentLoggedInUser, setCurrentLoggedInUser] = useState(null);
 
   const getUsername = () => {
-    const user = auth.currentUser();
+    const user = auth.currentUser;
     const unsubscribe = db
       .collection("users")
-      .where("owner_uid", "==", user.uid)
+      .where("user_uid", "==", user.uid)
       .limit(1)
       .onSnapshot((snapshot) =>
         snapshot.docs.map((doc) => {
@@ -38,32 +39,47 @@ const FormikPostUploader = () => {
 
   useEffect(() => getUsername(), []);
 
-  const uploadPostFirebase = () => {
+  const getRandomProfilePicture = async () => {
+    const response = await fetch("https://randomuser.me/api");
+    const data = await response.json();
+    return data.results[0].picture.large;
+  };
+
+  console.log(currentLoggedInUser);
+
+  const uploadPostFirebase = async (imageUrl, caption) => {
     const unsubscribe = db
       .collection("users")
       .doc(auth.currentUser.email)
       .collection("posts")
-      .add({});
+      .add({
+        imageUrl: imageUrl,
+        user: currentLoggedInUser.username,
+        profile_picture: currentLoggedInUser.profilePicture,
+        owner_uid: auth.currentUser.uid,
+        caption: caption,
+        createdAt: serverTimestamp(),
+        likes: 0,
+        likes_by_users: [],
+        comments: [],
+      })
+      .then(() => navigation.goBack());
+    return unsubscribe;
   };
 
   return (
     <Formik
       initialValues={{ caption: "", imageUrl: "" }}
-      onSubmit={(value) => {
-        console.log(value);
-        navigation.goBack();
-      }}
+      onSubmit={(value) => uploadPostFirebase(value.imageUrl, value.caption)}
       validationSchema={uploadPostSchema}
       validateOnMount={true}
     >
       {({
         values,
         errors,
-        touched,
         handleChange,
         handleBlur,
         handleSubmit,
-        isSubmitting,
         isValid,
       }) => (
         <View style={{ margin: 20 }}>

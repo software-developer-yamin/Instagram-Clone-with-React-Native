@@ -1,11 +1,20 @@
+import { useEffect } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import BottomTabs, { BottomTabIcons } from "../components/Home/BottomTabs";
 import Header from "../components/Home/Header";
 import Post from "../components/Home/Post";
 import Stories from "../components/Home/Stories";
 import { POSTS } from "../data/posts";
+import { db } from "../firebase";
 
 const HomeScreen = () => {
+  useEffect(
+    () =>
+      db.collectionGroup("posts").onSnapshot((snapshot) => {
+        console.log(snapshot.docs.map((doc) => doc.data()));
+      }),
+    []
+  );
 
   return (
     <View style={styles.container}>

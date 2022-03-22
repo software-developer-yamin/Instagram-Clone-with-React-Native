@@ -38,7 +38,7 @@ const SignUpForm = () => {
       );
       console.log("🔥Firebase User Created Successfully", email, password);
 
-      await db.collection("users").add({
+      await db.collection("users").doc(authUser.user.email).set({
         user_uid: authUser.user.uid,
         username: username,
         email: authUser.user.email,

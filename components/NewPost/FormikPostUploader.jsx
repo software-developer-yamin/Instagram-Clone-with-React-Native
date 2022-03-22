@@ -1,9 +1,10 @@
 import { useNavigation } from "@react-navigation/native";
 import { Formik } from "formik";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Image, StyleSheet, Text, TextInput, View } from "react-native";
 import { Divider } from "react-native-elements";
 import * as Yup from "yup";
+import { auth, db } from "../../firebase";
 
 const PLACEHOLDER_URL =
   "https://getstamped.co.uk/wp-content/uploads/WebsiteAssets/Placeholder.jpg";
@@ -16,6 +17,34 @@ const uploadPostSchema = Yup.object().shape({
 const FormikPostUploader = () => {
   const [thumbnail, setThumbnail] = useState(PLACEHOLDER_URL);
   const navigation = useNavigation();
+  const [currentLoggedInUser, setCurrentLoggedInUser] = useState(null);
+
+  const getUsername = () => {
+    const user = auth.currentUser();
+    const unsubscribe = db
+      .collection("users")
+      .where("owner_uid", "==", user.uid)
+      .limit(1)
+      .onSnapshot((snapshot) =>
+        snapshot.docs.map((doc) => {
+          setCurrentLoggedInUser({
+            username: doc.data().username,
+            profilePicture: doc.data().profile_picture,
+          });
+        })
+      );
+    return unsubscribe;
+  };
+
+  useEffect(() => getUsername(), []);
+
+  const uploadPostFirebase = () => {
+    const unsubscribe = db
+      .collection("users")
+      .doc(auth.currentUser.email)
+      .collection("posts")
+      .add({});
+  };
 
   return (
     <Formik

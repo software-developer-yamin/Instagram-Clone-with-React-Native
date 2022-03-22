@@ -1,19 +1,22 @@
 import { AntDesign, FontAwesome5 } from "@expo/vector-icons";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { auth } from "../../firebase";
 
 const Header = () => {
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
-      <TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => auth.signOut().then(() => console.log("Sign Out"))}
+      >
         <Image
           source={require("../../assets/header-logo.jpg")}
           style={styles.logo}
         />
       </TouchableOpacity>
       <View style={styles.iconContainer}>
-        <TouchableOpacity onPress={() => navigation.navigate("NewPost")} >
+        <TouchableOpacity onPress={() => navigation.navigate("NewPost")}>
           <AntDesign
             name="plussquareo"
             style={{ marginLeft: 10 }}

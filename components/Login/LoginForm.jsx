@@ -2,6 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 import Validator from "email-validator";
 import { Formik } from "formik";
 import {
+  Alert,
   Button,
   StyleSheet,
   Text,
@@ -10,6 +11,7 @@ import {
   View,
 } from "react-native";
 import * as Yup from "yup";
+import { auth } from "../../firebase";
 
 const LoginForm = () => {
   const navigation = useNavigation();
@@ -21,11 +23,33 @@ const LoginForm = () => {
       .min(6, "Your password has to have at least 6 characters"),
   });
 
+  const onLogin = async (email, password) => {
+    try {
+      await auth.signInWithEmailAndPassword(email, password);
+      console.log("firebase login is successful!", email, password);
+    } catch (err) {
+      Alert.alert(
+        "🔥 BOOBOO..",
+        err.message + "\n\n ...What would you like to do next 👁️👁️??",
+        [
+          {
+            text: "OK",
+            onPress: () => console.log("OK"),
+            style: "cancel",
+          }, {
+            text: "Sign Up",
+            onPress: () => navigation.navigate("SignUp"),
+          }
+        ]
+      );
+    }
+  };
+
   return (
     <View style={styles.wrapper}>
       <Formik
         initialValues={{ email: "", password: "" }}
-        onSubmit={(value) => console.log(value)}
+        onSubmit={(value) => onLogin(value.email, value.password)}
         validationSchema={LoginFormSchema}
         validateOnMount={true}
       >

@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/native";
 import Validator from "email-validator";
 import { Formik } from "formik";
 import {
@@ -11,6 +12,8 @@ import {
 import * as Yup from "yup";
 
 const LoginForm = () => {
+  const navigation = useNavigation();
+
   const LoginFormSchema = Yup.object().shape({
     email: Yup.string().email().required("An email is required"),
     password: Yup.string()
@@ -99,7 +102,13 @@ const LoginForm = () => {
             <View style={styles.signUpContainer}>
               <Text>Don't have an account?</Text>
               <TouchableOpacity>
-                <Text style={{ color: "#6BB0F5" }}> Sign Up</Text>
+                <Text
+                  style={{ color: "#6BB0F5" }}
+                  onPress={() => navigation.navigate("SignUp")}
+                >
+                  {" "}
+                  Sign Up
+                </Text>
               </TouchableOpacity>
             </View>
           </>

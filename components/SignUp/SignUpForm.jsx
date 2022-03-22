@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/native";
 import Validator from "email-validator";
 import { Formik } from "formik";
 import {
@@ -11,6 +12,8 @@ import {
 import * as Yup from "yup";
 
 const SignUpForm = () => {
+  const navigation = useNavigation();
+
   const signUpFormSchema = Yup.object().shape({
     email: Yup.string().email().required("An email is required"),
     username: Yup.string().required().min(2, "A username is required"),
@@ -27,14 +30,7 @@ const SignUpForm = () => {
         validationSchema={signUpFormSchema}
         validateOnMount={true}
       >
-        {({
-          values,
-          errors,
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          isValid,
-        }) => (
+        {({ values, handleChange, handleBlur, handleSubmit, isValid }) => (
           <>
             <View
               style={[
@@ -48,7 +44,7 @@ const SignUpForm = () => {
               ]}
             >
               <TextInput
-                placeholder="Phone number, username or email"
+                placeholder="Email"
                 placeholderTextColor="#444"
                 autoFocus={true}
                 autoCapitalize="none"
@@ -115,7 +111,13 @@ const SignUpForm = () => {
             <View style={styles.signUpContainer}>
               <Text>Don't have an account?</Text>
               <TouchableOpacity>
-                <Text style={{ color: "#6BB0F5" }}> Log In</Text>
+                <Text
+                  style={{ color: "#6BB0F5" }}
+                  onPress={() => navigation.navigate("Login")}
+                >
+                  {" "}
+                  Log In
+                </Text>
               </TouchableOpacity>
             </View>
           </>
